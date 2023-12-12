@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Delta Goal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/delta_goal_logo.png') }}">
+
+</head>
+<body>
+    <header class="header">
+        <img src="{{ url_for('static', filename='img/Delta_Goal_principal.png') }}" alt="Logo" class="logo">
+    </header>
+    <div class="side-image left">
+        <img src="{{ url_for('static', filename='img/delta_goal_logo.png') }}" alt="Imagem Lateral Esquerda">
+    </div>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="flash-message">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <h1>Acesso à plataforma</h1>
+        <form method="post" action="/login">
+            <input type="text" placeholder="E-mail" name="email">
+            <input type="password" placeholder="Senha" name="senha">
+            <button type="submit" class="button">Acessar</button>
+        </form>
+    </div>
+    <div class="side-image right">
+        <img src="{{ url_for('static', filename='img/delta_prabaixo.png') }}" alt="Imagem Lateral Direita">
+    </div>
+    <script>
+
+        var sessionExiste = sessionStorage.getItem('session') !== null;
+
+        if (sessionExiste) {
+            window.location.href = '/home';
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelector('form').addEventListener('submit', async function (event) {
+                event.preventDefault();
+    
+                const email = document.querySelector('input[name="email"]').value;
+                const password = document.querySelector('input[name="senha"]').value;
+    
+                const data = {
+                    email: email,
+                    senha: password
+                };
+    
+                let response = await fetch('http://127.0.0.1:5000/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + sessionStorage.session  
+                    },
+                    body: JSON.stringify(data),
+                })
+                let responseData = await response.json()
+
+                if (!responseData.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                } else if (responseData.ok) {
+                    sessionStorage.setItem('session',responseData.session)
+                    window.location.href = '/home';
+                    
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
