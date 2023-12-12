@@ -40,7 +40,7 @@
         if (sessionExiste) {
             window.location.href = '/home';
         }
-        window.location.href = '/home';
+        
 
 
         document.addEventListener('DOMContentLoaded', function () {
@@ -70,7 +70,8 @@
                 } else if (responseData.ok) {
                     sessionStorage.setItem('session',responseData.session)
                     window.location.href = '/home';
-                    
+                } else {
+                    window.location.href = '/home';
                 }
             });
         });

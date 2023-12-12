@@ -17,6 +17,7 @@
                         },
                         body: {},
                     })
+                    window.location.href = '/login';
                     
                     let responseData = await response.json();
 
@@ -26,7 +27,6 @@
                         sessionStorage.clear();
                         window.location.href = '/login';
                     } 
-                    window.location.href = '/login';
     }
     </script>
 </div>
