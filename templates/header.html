@@ -6,7 +6,7 @@
     </a>
     <a href="{{ url_for('home') }}">Home</a>
     <a href="{{ url_for('partidas') }}">Partidas</a>
-    <a href="#" onclick="sessionLogout()">Sair</a>
+    <a href="/login" onclick="sessionLogout()">Sair</a>
     <script>
     async function sessionLogout() {
         let response = await fetch('http://127.0.0.1:5000/logout', {
